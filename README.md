@@ -1,6 +1,6 @@
 # FoodChain
 
-A cloud-native restaurant management platform built across **10 microservices** — handling ordering, kitchen operations, menu management, branch coordination, analytics, and real-time notifications.
+A cloud-native restaurant management platform built across **10 microservices** — handling ordering, kitchen operations, menu management, branch coordination, analytics, and real-time notifications. Available on web and mobile (Flutter).
 
 All source code is maintained across multiple repositories under the **[FoodchainGroup08](https://github.com/FoodchainGroup08)** GitHub organisation.
 
@@ -29,6 +29,7 @@ All source code is maintained across multiple repositories under the **[Foodchai
 | Cache / Queue | Redis |
 | Messaging | Apache Kafka |
 | Frontend | React + Vite |
+| Mobile | Flutter |
 | Containerisation | Docker + Docker Hub |
 | CI/CD | GitHub Actions |
 | Infrastructure | AWS EC2, RDS, S3 |
@@ -71,6 +72,7 @@ All source code is maintained across multiple repositories under the **[Foodchai
 | [notifications-service](https://github.com/FoodchainGroup08/notifications-service) | WebSocket push notifications and transactional email alerts |
 | [analytics-report-service](https://github.com/FoodchainGroup08/analytics-report-service) | Sales analytics, daily summaries, and report generation |
 | [frontend](https://github.com/FoodchainGroup08/frontend) | React/Vite UI for customers and staff |
+| mobile *(coming soon)* | Flutter mobile app for customers and staff |
 
 ---
 
