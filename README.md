@@ -2,6 +2,8 @@
 
 A cloud-native restaurant management platform built as a distributed microservices system — handling ordering, kitchen operations, menu management, branch coordination, analytics, and real-time notifications.
 
+All source code is maintained across multiple repositories under the **[FoodchainGroup08](https://github.com/FoodchainGroup08)** GitHub organisation.
+
 ---
 
 ## Architecture Overview
@@ -43,6 +45,8 @@ A cloud-native restaurant management platform built as a distributed microservic
 | Confluent Cloud | Managed Kafka broker (SASL_SSL) |
 | Redis Cloud | Cache, sessions, and kitchen order queue |
 | Google Gemini AI | AI-powered food suggestions in menu service |
+| Google Maps API | Branch location search and nearby branch discovery |
+| Google OAuth2 | Social login for customer accounts |
 | Brevo | Transactional email delivery |
 | Cloudflare | Frontend hosting and DNS |
 | Docker Hub | Container image registry |
@@ -53,19 +57,19 @@ A cloud-native restaurant management platform built as a distributed microservic
 
 | Repository | Function |
 |---|---|
-| [frontend](https://github.com/FoodchainGroup08/frontend) | React/Vite UI for customers and staff |
+| [eureka-server](https://github.com/FoodchainGroup08/eureka-server) | Service registry — all services register and discover each other here |
+| [config-server](https://github.com/FoodchainGroup08/config-server) | Spring Cloud Config Server — serves centralised config to all services |
+| [foodchain-config](https://github.com/FoodchainGroup08/foodchain-config) | Centralised YAML config files pulled by config-server at runtime |
+| [foodchain-deployment](https://github.com/FoodchainGroup08/foodchain-deployment) | Docker Compose files and GitHub Actions CI/CD workflows |
 | [api-gateway](https://github.com/FoodchainGroup08/api-gateway) | Entry point — JWT auth, routing, CORS, WebSocket proxy |
-| [user-service](https://github.com/FoodchainGroup08/user-service) | Authentication, OAuth2, user profiles and roles |
-| [branch-service](https://github.com/FoodchainGroup08/branch-service) | Branch management and operating hours |
-| [menu-service](https://github.com/FoodchainGroup08/menu-service) | Menu items, categories, image uploads, AI suggestions |
-| [order-service](https://github.com/FoodchainGroup08/order-service) | Order placement, lifecycle, and outbox events |
+| [user-service](https://github.com/FoodchainGroup08/user-service) | Authentication, Google OAuth2, user profiles and roles |
+| [branch-service](https://github.com/FoodchainGroup08/branch-service) | Branch management, operating hours, and location |
+| [menu-service](https://github.com/FoodchainGroup08/menu-service) | Menu items, categories, image uploads, AI food suggestions |
+| [order-service](https://github.com/FoodchainGroup08/order-service) | Order placement, lifecycle management, and outbox events |
 | [kitchen-service](https://github.com/FoodchainGroup08/kitchen-service) | Kitchen order queue and real-time status updates |
-| [notifications-service](https://github.com/FoodchainGroup08/notifications-service) | WebSocket push notifications and email alerts |
+| [notifications-service](https://github.com/FoodchainGroup08/notifications-service) | WebSocket push notifications and transactional email alerts |
 | [analytics-report-service](https://github.com/FoodchainGroup08/analytics-report-service) | Sales analytics, daily summaries, and report generation |
-| [config-server](https://github.com/FoodchainGroup08/config-server) | Spring Cloud Config Server |
-| [eureka-server](https://github.com/FoodchainGroup08/eureka-server) | Service registry — Netflix Eureka |
-| [foodchain-config](https://github.com/FoodchainGroup08/foodchain-config) | Centralised YAML config files for all services |
-| [foodchain-deployment](https://github.com/FoodchainGroup08/foodchain-deployment) | Docker Compose files and GitHub Actions workflows |
+| [frontend](https://github.com/FoodchainGroup08/frontend) | React/Vite UI for customers and staff |
 
 ---
 
@@ -73,8 +77,9 @@ A cloud-native restaurant management platform built as a distributed microservic
 
 | Service | Port | URL |
 |---|---|---|
-| Frontend | — | https://foodchain.live |
-| API Gateway | 8080 | https://api.foodchain.live |
+| Frontend | — | [foodchain.live](https://foodchain.live) |
+| API Gateway | 8080 | [api.foodchain.live](https://api.foodchain.live) |
+| API Docs (Swagger) | — | [api.foodchain.live/swagger-ui.html](https://api.foodchain.live/swagger-ui.html) |
 | User Service | 8086 | Internal |
 | Branch Service | 8081 | Internal |
 | Menu Service | 8082 | Internal |
@@ -96,3 +101,4 @@ A cloud-native restaurant management platform built as a distributed microservic
 - [ ] Rate limiting at the API gateway level
 - [ ] Expand test coverage — unit and integration tests per service
 - [ ] Move from EC2 t2.micro to containerised orchestration (ECS or Kubernetes) for better resource management
+- [ ] Multi-tenancy system — support multiple restaurant brands or franchise groups on one platform
