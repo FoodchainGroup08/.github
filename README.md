@@ -1,6 +1,6 @@
 # FoodChain
 
-A cloud-native restaurant management platform built as a distributed microservices system — handling ordering, kitchen operations, menu management, branch coordination, analytics, and real-time notifications.
+A cloud-native restaurant management platform built across **10 microservices** — handling ordering, kitchen operations, menu management, branch coordination, analytics, and real-time notifications.
 
 All source code is maintained across multiple repositories under the **[FoodchainGroup08](https://github.com/FoodchainGroup08)** GitHub organisation.
 
@@ -21,7 +21,7 @@ All source code is maintained across multiple repositories under the **[Foodchai
 
 | Layer | Technology |
 |---|---|
-| Language | Java 17 |
+| Language | Java 17, 21, 25 |
 | Framework | Spring Boot 3, Spring Cloud |
 | Gateway | Spring Cloud Gateway |
 | Service Discovery | Netflix Eureka |
@@ -39,7 +39,7 @@ All source code is maintained across multiple repositories under the **[Foodchai
 
 | Service | Purpose |
 |---|---|
-| AWS EC2 × 2 (t2.micro) | Hosts all backend Docker containers |
+| AWS EC2 × 2 (t3.medium) | Hosts all backend Docker containers |
 | AWS RDS MySQL 8.0 | Persistent storage — 6 separate schemas on one instance |
 | AWS S3 | Menu item image storage |
 | Confluent Cloud | Managed Kafka broker (SASL_SSL) |
@@ -48,6 +48,7 @@ All source code is maintained across multiple repositories under the **[Foodchai
 | Google Maps API | Branch location search and nearby branch discovery |
 | Google OAuth2 | Social login for customer accounts |
 | Brevo | Transactional email delivery |
+| Namecheap | Domain registrar — foodchain.live |
 | Cloudflare | Frontend hosting and DNS |
 | Docker Hub | Container image registry |
 
@@ -77,9 +78,9 @@ All source code is maintained across multiple repositories under the **[Foodchai
 
 | Service | Port | URL |
 |---|---|---|
-| Frontend | — | [foodchain.live](https://foodchain.live) |
+| Frontend (Cloudflare) | — | [foodchain.live](https://foodchain.live) |
 | API Gateway | 8080 | [api.foodchain.live](https://api.foodchain.live) |
-| API Docs (Swagger) | — | [api.foodchain.live/swagger-ui.html](https://api.foodchain.live/swagger-ui.html) |
+| API Docs (Swagger) | — | [api.foodchain.live/webjars/swagger-ui/index.html](https://api.foodchain.live/webjars/swagger-ui/index.html) |
 | User Service | 8086 | Internal |
 | Branch Service | 8081 | Internal |
 | Menu Service | 8082 | Internal |
