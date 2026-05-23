@@ -1,4 +1,4 @@
-# FoodChain
+# FoodChain (WEB AND MOBILE)
 
 A cloud-native restaurant management platform built across **10 microservices** — handling ordering, kitchen operations, menu management, branch coordination, analytics, and real-time notifications. Available on web and mobile (React Native).
 
