@@ -1,6 +1,6 @@
 # FoodChain
 
-A cloud-native restaurant management platform built across **10 microservices** — handling ordering, kitchen operations, menu management, branch coordination, analytics, and real-time notifications. Available on web and mobile (Flutter).
+A cloud-native restaurant management platform built across **10 microservices** — handling ordering, kitchen operations, menu management, branch coordination, analytics, and real-time notifications. Available on web and mobile (React Native).
 
 All source code is maintained across multiple repositories under the **[FoodchainGroup08](https://github.com/FoodchainGroup08)** GitHub organisation.
 
@@ -354,23 +354,7 @@ classDiagram
     Branch "1" --> "0..*" BranchTable : has
     KitchenOrder "1" *-- "1..*" KitchenOrderItem : processes
 
-    class User userSvc
-    class UserPreference userSvc
-    class Role userSvc
-    class MenuItem menuSvc
-    class Category menuSvc
-    class UserMenuInteraction menuSvc
-    class Order orderSvc
-    class OrderItem orderSvc
-    class Payment orderSvc
-    class Branch branchSvc
-    class OperatingHours branchSvc
-    class BranchTable branchSvc
-    class KitchenOrder kitSvc
-    class KitchenOrderItem kitSvc
-    class Notification notifSvc
-    class SalesReport anSvc
-    class OrderItemAnalytics anSvc
+  
 ```
 
 ---
