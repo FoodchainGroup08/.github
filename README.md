@@ -45,7 +45,7 @@ All source code is maintained across multiple repositories under the **[Foodchai
 | AWS S3 | Menu item image storage |
 | Confluent Cloud | Managed Kafka broker (SASL_SSL) |
 | Redis Cloud | Cache, sessions, and kitchen order queue |
-| Google Gemini AI | AI-powered food suggestions in menu service |
+| Google Gemini AI | Previously used for food suggestions — replaced by preference-based recommendation engine |
 | Google Maps API | Branch location search and nearby branch discovery |
 | Google OAuth2 | Social login for customer accounts |
 | Brevo | Transactional email delivery |
@@ -66,7 +66,7 @@ All source code is maintained across multiple repositories under the **[Foodchai
 | [api-gateway](https://github.com/FoodchainGroup08/api-gateway) | Entry point — JWT auth, routing, CORS, WebSocket proxy |
 | [user-service](https://github.com/FoodchainGroup08/user-service) | Authentication, Google OAuth2, user profiles and roles |
 | [branch-service](https://github.com/FoodchainGroup08/branch-service) | Branch management, operating hours, and location |
-| [menu-service](https://github.com/FoodchainGroup08/menu-service) | Menu items, categories, image uploads, AI food suggestions |
+| [menu-service](https://github.com/FoodchainGroup08/menu-service) | Menu items, categories, image uploads, and preference-based combo recommendations |
 | [order-service](https://github.com/FoodchainGroup08/order-service) | Order placement, lifecycle management, and outbox events |
 | [kitchen-service](https://github.com/FoodchainGroup08/kitchen-service) | Kitchen order queue and real-time status updates |
 | [notifications-service](https://github.com/FoodchainGroup08/notifications-service) | WebSocket push notifications and transactional email alerts |
@@ -92,6 +92,284 @@ All source code is maintained across multiple repositories under the **[Foodchai
 | Notifications Service | 8087 | Internal |
 | Config Server | 8888 | Internal |
 | Eureka Server | 8761 | Internal |
+
+---
+
+## Architecture Diagram
+
+```mermaid
+flowchart TD
+    classDef client    fill:#D6EAF8,stroke:#2E86C1,color:#1A5276,font-weight:bold
+    classDef gateway   fill:#F0F0F0,stroke:#555555,color:#222222,font-weight:bold
+    classDef userSvc   fill:#EBF5FB,stroke:#2E86C1,color:#1A5276
+    classDef orderSvc  fill:#FDEBD0,stroke:#D35400,color:#7E5109
+    classDef menuSvc   fill:#EAFAF1,stroke:#1E8449,color:#145A32
+    classDef branchSvc fill:#F8F9FA,stroke:#566573,color:#2C3E50
+    classDef kitSvc    fill:#FDEDEC,stroke:#CB4335,color:#78281F
+    classDef notifSvc  fill:#FDEDEC,stroke:#922B21,color:#78281F
+    classDef anSvc     fill:#E8DAEF,stroke:#6C3483,color:#4A235A
+    classDef kafka     fill:#231F20,stroke:#000000,color:#ffffff,font-weight:bold
+    classDef mysql     fill:#007DB8,stroke:#004f78,color:#ffffff,font-weight:bold
+    classDef redis     fill:#DC382D,stroke:#A01E1E,color:#ffffff,font-weight:bold
+    classDef s3        fill:#FF9900,stroke:#CC6600,color:#ffffff,font-weight:bold
+    classDef rec       fill:#EAFAF1,stroke:#1E8449,color:#145A32,font-weight:bold
+    classDef email     fill:#FAD7A0,stroke:#CA6F1E,color:#784212
+
+    subgraph CLIENT["🖥️ Client Layer"]
+        FE["Frontend\nReact + Vite + TypeScript\nfoodchain.live"]
+        MOB["Mobile\nFlutter\ncoming soon"]
+    end
+
+    subgraph GATEWAY["⚙️ API Gateway Layer"]
+        GW["API Gateway\nSpring Cloud Gateway · JWT Auth\napi.foodchain.live : 8080"]
+        EUR["Eureka Server\nService Discovery & Registry\n:8761"]
+        CFG["Config Server\nSpring Cloud Config\n:8888"]
+    end
+
+    subgraph SERVICES["🔧 Microservices Layer  —  Spring Boot 3 · Java 17 / 21 / 25"]
+        US["User Service\nAuth · JWT · OAuth2\nPreferences v2 · :8086"]
+        OS["Order Service\nOrders · Outbox Pattern\nKafka Producer · :8083"]
+        MS["Menu Service\nItems · Categories · S3\nRecommendations v2 · :8082"]
+        BS["Branch Service\nBranches · Hours\nLocation · :8081"]
+        KS["Kitchen Service\nOrder Queue · SLA\nKafka Consumer · :8084"]
+        NS["Notifications Service\nWebSocket · Email\nBrevo · :8087"]
+        AS["Analytics Service\nReports · Metrics\nKafka Consumer · :8085"]
+    end
+
+    subgraph MESSAGING["📨 Messaging Layer"]
+        KF[("Apache Kafka\nConfluentCloud")]
+    end
+
+    subgraph INFRA["🏗️ Infrastructure Layer"]
+        subgraph RDS["☁️ AWS RDS MySQL 8"]
+            DB_USER[("user_db")]
+            DB_MENU[("menu_db")]
+            DB_ORDER[("order_db")]
+            DB_BRANCH[("branch_db")]
+            DB_NOTIF[("notifications_db")]
+            DB_AN[("analytics_report_db")]
+        end
+        REDIS[("Redis Cloud\nQueue · Cache · Sessions")]
+        S3["AWS S3\nImage Storage"]
+        REC["Recommendation Engine\nPreference + History Scoring"]
+        EMAIL["Brevo / SMTP\nEmail Delivery"]
+    end
+
+    FE -->|"HTTPS / WSS"| GW
+    MOB -->|"HTTPS"| GW
+    GW <-->|"registers"| EUR
+    GW <-->|"config pull"| CFG
+    EUR -->|"lb:// routing"| US & OS & MS & BS & KS & NS & AS
+
+    OS -->|"publishes events"| KF
+    US -->|"publishes events"| KF
+    KF -->|"order.received"| MS
+    KF -->|"kitchen events"| KS
+    KF -->|"notifications"| NS
+    KF -->|"analytics events"| AS
+
+    US -->|"persist"| DB_USER
+    OS -->|"persist"| DB_ORDER
+    MS -->|"persist"| DB_MENU
+    BS -->|"persist"| DB_BRANCH
+    NS -->|"persist"| DB_NOTIF
+    AS -->|"persist"| DB_AN
+    KS -->|"order queue"| REDIS
+    US -->|"token blacklist"| REDIS
+    MS -->|"image upload"| S3
+    MS -->|"scores combos"| REC
+    NS -->|"sends"| EMAIL
+
+    class FE,MOB client
+    class GW,EUR,CFG gateway
+    class US userSvc
+    class OS orderSvc
+    class MS,REC menuSvc
+    class BS branchSvc
+    class KS kitSvc
+    class NS notifSvc
+    class AS anSvc
+    class KF kafka
+    class DB_USER,DB_MENU,DB_ORDER,DB_BRANCH,DB_NOTIF,DB_AN mysql
+    class REDIS redis
+    class S3 s3
+    class EMAIL email
+```
+
+---
+
+## Class Diagram
+
+```mermaid
+classDiagram
+    classDef userSvc fill:#EBF5FB,stroke:#2E86C1,color:#1A5276
+    classDef menuSvc fill:#EAFAF1,stroke:#1E8449,color:#145A32
+    classDef orderSvc fill:#FDEBD0,stroke:#D35400,color:#7E5109
+    classDef branchSvc fill:#F8F9FA,stroke:#566573,color:#2C3E50
+    classDef kitSvc fill:#FDEDEC,stroke:#CB4335,color:#78281F
+    classDef notifSvc fill:#FDEDEC,stroke:#922B21,color:#78281F
+    classDef anSvc fill:#E8DAEF,stroke:#6C3483,color:#4A235A
+
+    %% ── User Service : 8086 ──
+    class User:::userSvc {
+        +Long id
+        +String email
+        +String name
+        +Role role
+        +String googleId
+    }
+    class UserPreference:::userSvc {
+        +Long id
+        +Long userId
+        +List cuisinePreferences
+        +List allergens
+        +boolean preferencesCompleted
+    }
+    class Role:::userSvc {
+        <<enumeration>>
+        CUSTOMER
+        KITCHEN_STAFF
+        BRANCH_MANAGER
+        HEAD_OFFICE_ADMIN
+    }
+
+    %% ── Menu Service : 8082 ──
+    class MenuItem:::menuSvc {
+        +Long id
+        +String name
+        +BigDecimal price
+        +Long categoryId
+        +Long branchId
+        +boolean isActive
+    }
+    class Category:::menuSvc {
+        +Long id
+        +String name
+    }
+    class UserMenuInteraction:::menuSvc {
+        +Long id
+        +Long userId
+        +Long menuItemId
+        +String interactionType
+        +Integer rating
+    }
+
+    %% ── Order Service : 8183 ──
+    class Order:::orderSvc {
+        +Long id
+        +Long userId
+        +Long branchId
+        +OrderStatus status
+        +BigDecimal totalAmount
+    }
+    class OrderItem:::orderSvc {
+        +Long id
+        +Long orderId
+        +Long menuItemId
+        +Integer quantity
+        +BigDecimal unitPrice
+    }
+    class Payment:::orderSvc {
+        +Long id
+        +Long orderId
+        +String paystackReference
+        +PaymentStatus status
+    }
+
+    %% ── Branch Service : 8081 ──
+    class Branch:::branchSvc {
+        +Long id
+        +String name
+        +String address
+        +Double latitude
+        +Double longitude
+    }
+    class OperatingHours:::branchSvc {
+        +Long id
+        +Long branchId
+        +DayOfWeek dayOfWeek
+        +LocalTime openTime
+        +LocalTime closeTime
+    }
+    class BranchTable:::branchSvc {
+        +Long id
+        +Long branchId
+        +String tableNumber
+        +Integer capacity
+    }
+
+    %% ── Kitchen Service : 8084 ──
+    class KitchenOrder:::kitSvc {
+        +Long id
+        +Long orderId
+        +Long branchId
+        +KitchenStatus status
+        +LocalDateTime assignedAt
+    }
+    class KitchenOrderItem:::kitSvc {
+        +Long id
+        +Long kitchenOrderId
+        +String menuItemName
+        +Integer quantity
+    }
+
+    %% ── Notifications Service : 8087 ──
+    class Notification:::notifSvc {
+        +Long id
+        +Long userId
+        +String type
+        +String message
+        +boolean read
+    }
+
+    %% ── Analytics Service : 8085 ──
+    class SalesReport:::anSvc {
+        +Long id
+        +Long branchId
+        +LocalDate reportDate
+        +BigDecimal totalRevenue
+        +Integer totalOrders
+    }
+    class OrderItemAnalytics:::anSvc {
+        +Long id
+        +Long menuItemId
+        +String menuItemName
+        +Integer totalQuantity
+    }
+
+    User "1" --> "0..1" UserPreference : has
+    User --> Role : assigned
+    User "1" --> "0..*" Order : places
+    Order "1" *-- "1..*" OrderItem : contains
+    Order "1" --> "0..1" Payment : paid via
+    Order "1" ..> "1" KitchenOrder : via Kafka
+    Order "1" ..> "0..*" Notification : via Kafka
+    MenuItem --> Category : in
+    MenuItem "1" <-- "0..*" OrderItem : included as
+    MenuItem "1" <-- "0..*" UserMenuInteraction : tracked by
+    Branch "1" --> "0..*" MenuItem : offers
+    Branch "1" --> "0..*" OperatingHours : schedules
+    Branch "1" --> "0..*" BranchTable : has
+    KitchenOrder "1" *-- "1..*" KitchenOrderItem : processes
+
+    class User userSvc
+    class UserPreference userSvc
+    class Role userSvc
+    class MenuItem menuSvc
+    class Category menuSvc
+    class UserMenuInteraction menuSvc
+    class Order orderSvc
+    class OrderItem orderSvc
+    class Payment orderSvc
+    class Branch branchSvc
+    class OperatingHours branchSvc
+    class BranchTable branchSvc
+    class KitchenOrder kitSvc
+    class KitchenOrderItem kitSvc
+    class Notification notifSvc
+    class SalesReport anSvc
+    class OrderItemAnalytics anSvc
+```
 
 ---
 

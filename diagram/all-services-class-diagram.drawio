@@ -1,0 +1,359 @@
+<mxfile host="65bd71144e">
+    <diagram id="all-services" name="All Services Class Diagram">
+        <mxGraphModel dx="736" dy="517" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="2400" pageHeight="2900" math="0" shadow="1">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="FoodChain — All Services Class Diagram" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontStyle=1;fontColor=#1A1A1A;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="10" width="1200" height="50" as="geometry"/>
+                </mxCell>
+
+                <!-- ═══════════════════════════════════════════════════════ -->
+                <!-- USER SERVICE (port 8086) -->
+                <!-- ═══════════════════════════════════════════════════════ -->
+                <mxCell id="S1" value="User Service  (port: 8086)" style="swimlane;startSize=30;fillColor=#EBF5FB;strokeColor=#2E86C1;fontColor=#1A5276;fontStyle=1;fontSize=13;align=left;spacingLeft=10;collapsible=0;rounded=1;arcSize=2;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="70" width="2300" height="430" as="geometry"/>
+                </mxCell>
+                <mxCell id="U_User" value="&lt;b&gt;@Entity User&lt;/b&gt;&lt;hr&gt;id: CHAR(36)&lt;br&gt;name, email, password&lt;br&gt;role: Role&lt;br&gt;provider, active&lt;br&gt;emailVerified&lt;br&gt;addressLine, lat, lng" style="text;html=1;strokeColor=#2E86C1;fillColor=#EBF5FB;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S1" vertex="1">
+                    <mxGeometry x="20" y="48" width="165" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="U_Role" value="&lt;b&gt;«enum» Role&lt;/b&gt;&lt;hr&gt;CUSTOMER&lt;br&gt;KITCHEN_STAFF&lt;br&gt;BRANCH_MANAGER&lt;br&gt;HEAD_OFFICE_ADMIN" style="text;html=1;strokeColor=#2E86C1;fillColor=#EBF5FB;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S1" vertex="1">
+                    <mxGeometry x="200" y="48" width="155" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="U_UserPref" value="&lt;b&gt;@Entity UserPreference  v2&lt;/b&gt;&lt;hr&gt;userId: CHAR(36) (PK)&lt;br&gt;dietaryRestrictions: JSON&lt;br&gt;cuisinePreferences: JSON&lt;br&gt;spiceLevel&lt;br&gt;defaultBudget&lt;br&gt;budgetUnlimited&lt;br&gt;preferencesCompleted" style="text;html=1;strokeColor=#2E86C1;fillColor=#D6EAF8;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S1" vertex="1">
+                    <mxGeometry x="370" y="48" width="185" height="145" as="geometry"/>
+                </mxCell>
+                <mxCell id="U_JwtService" value="&lt;b&gt;«if» JwtService&lt;/b&gt;&lt;hr&gt;generateAccessToken(user)&lt;br&gt;generateRefreshToken(user)&lt;br&gt;validateAccessToken(token)&lt;br&gt;extractUsername(token)" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S1" vertex="1">
+                    <mxGeometry x="570" y="48" width="185" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="U_AuthService" value="&lt;b&gt;AuthService + Impl&lt;/b&gt;&lt;hr&gt;login(req): AuthResponse&lt;br&gt;register(req): User&lt;br&gt;logout(token): void&lt;br&gt;refreshToken(token): String&lt;br&gt;buildAuthResponse(user)" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S1" vertex="1">
+                    <mxGeometry x="770" y="48" width="185" height="115" as="geometry"/>
+                </mxCell>
+                <mxCell id="U_TokenBlacklist" value="&lt;b&gt;TokenBlacklistService&lt;/b&gt;&lt;hr&gt;blacklist(token): void&lt;br&gt;isBlacklisted(token): boolean&lt;br&gt;(Redis-backed)" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S1" vertex="1">
+                    <mxGeometry x="970" y="48" width="185" height="95" as="geometry"/>
+                </mxCell>
+                <mxCell id="U_UserService" value="&lt;b&gt;UserService + Impl&lt;/b&gt;&lt;hr&gt;getUserById(id): User&lt;br&gt;updateProfile(id, dto): User&lt;br&gt;getAllUsers(): List&lt;br&gt;getUsersByRole(role): List" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S1" vertex="1">
+                    <mxGeometry x="1170" y="48" width="180" height="105" as="geometry"/>
+                </mxCell>
+                <mxCell id="U_EmailService" value="&lt;b&gt;EmailService&lt;/b&gt;&lt;hr&gt;sendVerificationEmail(user)&lt;br&gt;sendPasswordResetEmail(user)&lt;br&gt;sendWelcomeEmail(user)" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S1" vertex="1">
+                    <mxGeometry x="1365" y="48" width="180" height="95" as="geometry"/>
+                </mxCell>
+                <mxCell id="U_PrefService" value="&lt;b&gt;UserPreferenceService  v2&lt;/b&gt;&lt;hr&gt;savePreferences(userId, req)&lt;br&gt;getPreferences(userId)&lt;br&gt;JSON ↔ List serialization" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S1" vertex="1">
+                    <mxGeometry x="1560" y="48" width="185" height="95" as="geometry"/>
+                </mxCell>
+                <mxCell id="U_AuthController" value="&lt;b&gt;AuthController&lt;/b&gt;&lt;hr&gt;POST /v1/auth/login&lt;br&gt;POST /v1/auth/register&lt;br&gt;POST /v1/auth/logout&lt;br&gt;POST /v1/auth/refresh&lt;br&gt;POST /v1/auth/forgot-password" style="text;html=1;strokeColor=#1E8449;fillColor=#EAFAF1;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S1" vertex="1">
+                    <mxGeometry x="1760" y="48" width="175" height="115" as="geometry"/>
+                </mxCell>
+                <mxCell id="U_UserController" value="&lt;b&gt;UserController&lt;/b&gt;&lt;hr&gt;GET /v1/users/me&lt;br&gt;PATCH /v1/users/me&lt;br&gt;GET /v1/users (admin)&lt;br&gt;GET /v1/users/{id} (admin)" style="text;html=1;strokeColor=#1E8449;fillColor=#EAFAF1;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S1" vertex="1">
+                    <mxGeometry x="1950" y="48" width="170" height="105" as="geometry"/>
+                </mxCell>
+                <mxCell id="U_PrefController" value="&lt;b&gt;UserPreferenceController  v2&lt;/b&gt;&lt;hr&gt;GET /v2/users/preferences&lt;br&gt;POST /v2/users/preferences" style="text;html=1;strokeColor=#1E8449;fillColor=#D5F5E3;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S1" vertex="1">
+                    <mxGeometry x="2135" y="48" width="145" height="80" as="geometry"/>
+                </mxCell>
+                <!-- Row 2 -->
+                <mxCell id="U_JwtAuthFilter" value="&lt;b&gt;JwtAuthenticationFilter&lt;/b&gt;&lt;hr&gt;OncePerRequestFilter&lt;br&gt;Handles POST /v1/auth/login&lt;br&gt;validates credentials&lt;br&gt;writes JWT response" style="text;html=1;strokeColor=#666666;fillColor=#F5F5F5;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S1" vertex="1">
+                    <mxGeometry x="20" y="215" width="185" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="U_JwtAuthzFilter" value="&lt;b&gt;JwtAuthorizationFilter&lt;/b&gt;&lt;hr&gt;OncePerRequestFilter&lt;br&gt;reads X-User-Id header (gateway)&lt;br&gt;or validates Bearer JWT&lt;br&gt;sets SecurityContext" style="text;html=1;strokeColor=#666666;fillColor=#F5F5F5;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S1" vertex="1">
+                    <mxGeometry x="220" y="215" width="185" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="U_KafkaProd" value="&lt;b&gt;KafkaEmailProducer&lt;/b&gt;&lt;hr&gt;publishEmailEvent(event)&lt;br&gt;→ notification.email.send&lt;br&gt;→ notification.welcome" style="text;html=1;strokeColor=#D35400;fillColor=#FDEBD0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S1" vertex="1">
+                    <mxGeometry x="420" y="215" width="180" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="U_UserRepo" value="&lt;b&gt;UserRepository&lt;/b&gt;&lt;hr&gt;extends JpaRepository&lt;br&gt;findByEmail(): Optional&lt;br&gt;findByRole(role): List&lt;br&gt;existsByEmail(): boolean" style="text;html=1;strokeColor=#CB4335;fillColor=#FDEDEC;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S1" vertex="1">
+                    <mxGeometry x="615" y="215" width="180" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="U_PrefRepo" value="&lt;b&gt;UserPreferenceRepository  v2&lt;/b&gt;&lt;hr&gt;extends JpaRepository&lt;br&gt;findByUserId(userId): Optional" style="text;html=1;strokeColor=#CB4335;fillColor=#FDEDEC;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S1" vertex="1">
+                    <mxGeometry x="810" y="215" width="185" height="85" as="geometry"/>
+                </mxCell>
+                <mxCell id="U_MySQL" value="MySQL&#xa;user_db" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#007DB8;strokeColor=#004f78;fontColor=#ffffff;fontStyle=1;fontSize=10;" parent="S1" vertex="1">
+                    <mxGeometry x="1015" y="215" width="110" height="105" as="geometry"/>
+                </mxCell>
+                <mxCell id="U_Redis" value="Redis&#xa;Token Blacklist" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#DC382D;strokeColor=#A01E1E;fontColor=#ffffff;fontStyle=1;fontSize=10;" parent="S1" vertex="1">
+                    <mxGeometry x="1140" y="215" width="105" height="105" as="geometry"/>
+                </mxCell>
+
+                <!-- ═══════════════════════════════════════════════════════ -->
+                <!-- ORDER SERVICE (port 8183) -->
+                <!-- ═══════════════════════════════════════════════════════ -->
+                <mxCell id="S2" value="Order Service  (port: 8183)" style="swimlane;startSize=30;fillColor=#FDEBD0;strokeColor=#D35400;fontColor=#7E5109;fontStyle=1;fontSize=13;align=left;spacingLeft=10;collapsible=0;rounded=1;arcSize=2;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="520" width="2300" height="370" as="geometry"/>
+                </mxCell>
+                <mxCell id="O_Order" value="&lt;b&gt;@Entity Order&lt;/b&gt;&lt;hr&gt;id, branchId, userId&lt;br&gt;items: List&lt;OrderItem&gt;&lt;br&gt;status: OrderStatus&lt;br&gt;type: OrderType&lt;br&gt;totalAmount, createdAt" style="text;html=1;strokeColor=#D35400;fillColor=#FDEBD0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S2" vertex="1">
+                    <mxGeometry x="20" y="48" width="165" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="O_OrderItem" value="&lt;b&gt;@Entity OrderItem&lt;/b&gt;&lt;hr&gt;id, order: Order&lt;br&gt;menuItemId, name&lt;br&gt;quantity, unitPrice&lt;br&gt;subtotal" style="text;html=1;strokeColor=#D35400;fillColor=#FDEBD0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S2" vertex="1">
+                    <mxGeometry x="200" y="48" width="155" height="115" as="geometry"/>
+                </mxCell>
+                <mxCell id="O_Outbox" value="&lt;b&gt;@Entity OutboxEvent&lt;/b&gt;&lt;hr&gt;id, aggregateType&lt;br&gt;aggregateId, payload&lt;br&gt;topic, published&lt;br&gt;createdAt" style="text;html=1;strokeColor=#D35400;fillColor=#FDEBD0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S2" vertex="1">
+                    <mxGeometry x="370" y="48" width="155" height="115" as="geometry"/>
+                </mxCell>
+                <mxCell id="O_Payment" value="&lt;b&gt;@Entity Payment&lt;/b&gt;&lt;hr&gt;id, orderId, userId&lt;br&gt;amount, status&lt;br&gt;reference, channel&lt;br&gt;paidAt, createdAt" style="text;html=1;strokeColor=#D35400;fillColor=#FDEBD0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S2" vertex="1">
+                    <mxGeometry x="540" y="48" width="160" height="115" as="geometry"/>
+                </mxCell>
+                <mxCell id="O_StatusUpdate" value="&lt;b&gt;OrderStatusUpdate&lt;/b&gt;&lt;hr&gt;orderId, oldStatus&lt;br&gt;newStatus, changedBy&lt;br&gt;changedAt, note" style="text;html=1;strokeColor=#D35400;fillColor=#FDEBD0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S2" vertex="1">
+                    <mxGeometry x="715" y="48" width="155" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="O_OrderService" value="&lt;b&gt;OrderService + Impl&lt;/b&gt;&lt;hr&gt;createOrder(dto): Order&lt;br&gt;updateStatus(id, status): Order&lt;br&gt;getOrderById(id): Order&lt;br&gt;getOrdersByUser(userId): List&lt;br&gt;getOrdersByBranch(branchId): List" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S2" vertex="1">
+                    <mxGeometry x="885" y="48" width="185" height="115" as="geometry"/>
+                </mxCell>
+                <mxCell id="O_PaymentService" value="&lt;b&gt;PaymentService + Impl&lt;/b&gt;&lt;hr&gt;initiatePayment(dto): Payment&lt;br&gt;verifyPayment(ref): Payment&lt;br&gt;getByOrderId(orderId): Payment" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S2" vertex="1">
+                    <mxGeometry x="1085" y="48" width="185" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="O_PaystackClient" value="&lt;b&gt;PaystackClient&lt;/b&gt;&lt;hr&gt;initializeTransaction(req)&lt;br&gt;verifyTransaction(ref)&lt;br&gt;(Paystack REST API)" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S2" vertex="1">
+                    <mxGeometry x="1285" y="48" width="175" height="95" as="geometry"/>
+                </mxCell>
+                <mxCell id="O_Validator" value="&lt;b&gt;StatusTransitionValidator&lt;/b&gt;&lt;hr&gt;validate(from, to): void&lt;br&gt;Enforces valid order&lt;br&gt;status state machine" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S2" vertex="1">
+                    <mxGeometry x="1475" y="48" width="175" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="O_OutboxRelay" value="&lt;b&gt;OutboxRelay&lt;/b&gt;&lt;hr&gt;@Scheduled(fixedDelay=5000)&lt;br&gt;pollAndPublish(): void&lt;br&gt;Reads unpublished OutboxEvents&lt;br&gt;and publishes to Kafka" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S2" vertex="1">
+                    <mxGeometry x="1665" y="48" width="185" height="110" as="geometry"/>
+                </mxCell>
+                <!-- Row 2 -->
+                <mxCell id="O_Controller" value="&lt;b&gt;OrderController&lt;/b&gt;&lt;hr&gt;POST /v1/orders&lt;br&gt;GET /v1/orders/{id}&lt;br&gt;PUT /v1/orders/{id}/status&lt;br&gt;GET /v1/orders/user/{userId}" style="text;html=1;strokeColor=#1E8449;fillColor=#EAFAF1;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S2" vertex="1">
+                    <mxGeometry x="20" y="198" width="175" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="O_PaymentController" value="&lt;b&gt;PaymentController&lt;/b&gt;&lt;hr&gt;POST /v1/payments/initiate&lt;br&gt;GET /v1/payments/verify/{ref}&lt;br&gt;GET /v1/payments/order/{id}" style="text;html=1;strokeColor=#1E8449;fillColor=#EAFAF1;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S2" vertex="1">
+                    <mxGeometry x="210" y="198" width="175" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="O_OrderRepo" value="&lt;b&gt;OrderRepository&lt;/b&gt;&lt;hr&gt;findByUserId(userId): List&lt;br&gt;findByBranchId(branchId): List&lt;br&gt;findByStatus(status): List" style="text;html=1;strokeColor=#CB4335;fillColor=#FDEDEC;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S2" vertex="1">
+                    <mxGeometry x="400" y="198" width="180" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="O_OutboxRepo" value="&lt;b&gt;OutboxEventRepository&lt;/b&gt;&lt;hr&gt;findByPublished(false): List&lt;br&gt;(polled by OutboxRelay)" style="text;html=1;strokeColor=#CB4335;fillColor=#FDEDEC;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S2" vertex="1">
+                    <mxGeometry x="595" y="198" width="180" height="85" as="geometry"/>
+                </mxCell>
+                <mxCell id="O_MySQL" value="MySQL&#xa;order_db" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#007DB8;strokeColor=#004f78;fontColor=#ffffff;fontStyle=1;fontSize=10;" parent="S2" vertex="1">
+                    <mxGeometry x="790" y="198" width="115" height="105" as="geometry"/>
+                </mxCell>
+                <mxCell id="O_Kafka" value="Apache Kafka&#xa;Broker" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;size=8;fillColor=#231F20;strokeColor=#000000;fontColor=#ffffff;fontStyle=1;fontSize=10;" parent="S2" vertex="1">
+                    <mxGeometry x="920" y="195" width="120" height="110" as="geometry"/>
+                </mxCell>
+
+                <!-- ═══════════════════════════════════════════════════════ -->
+                <!-- MENU SERVICE (port 8082) -->
+                <!-- ═══════════════════════════════════════════════════════ -->
+                <mxCell id="S3" value="Menu Service  (port: 8082)" style="swimlane;startSize=30;fillColor=#EAFAF1;strokeColor=#1E8449;fontColor=#145A32;fontStyle=1;fontSize=13;align=left;spacingLeft=10;collapsible=0;rounded=1;arcSize=2;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="910" width="2300" height="400" as="geometry"/>
+                </mxCell>
+                <mxCell id="M_Category" value="&lt;b&gt;@Entity MenuCategory&lt;/b&gt;&lt;hr&gt;id, name, description&lt;br&gt;displayOrder, active&lt;br&gt;imageUrl" style="text;html=1;strokeColor=#1E8449;fillColor=#EAFAF1;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S3" vertex="1">
+                    <mxGeometry x="20" y="48" width="165" height="95" as="geometry"/>
+                </mxCell>
+                <mxCell id="M_Item" value="&lt;b&gt;@Entity MenuItem&lt;/b&gt;&lt;hr&gt;id, name, description&lt;br&gt;basePrice: BigDecimal&lt;br&gt;category: MenuCategory&lt;br&gt;active, imageUrl" style="text;html=1;strokeColor=#1E8449;fillColor=#EAFAF1;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S3" vertex="1">
+                    <mxGeometry x="200" y="48" width="165" height="105" as="geometry"/>
+                </mxCell>
+                <mxCell id="M_Interaction" value="&lt;b&gt;@Entity UserMenuInteraction  v2&lt;/b&gt;&lt;hr&gt;id, userId, menuItemId&lt;br&gt;menuItemName, branchId&lt;br&gt;orderCount, lastOrderedAt&lt;br&gt;firstOrderedAt&lt;br&gt;(uk: userId+itemId+branchId)" style="text;html=1;strokeColor=#1E8449;fillColor=#D5F5E3;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S3" vertex="1">
+                    <mxGeometry x="380" y="48" width="185" height="125" as="geometry"/>
+                </mxCell>
+                <mxCell id="M_MenuService" value="&lt;b&gt;MenuService + Impl&lt;/b&gt;&lt;hr&gt;getMenuItemsByBranch(branchId)&lt;br&gt;createMenuItem(dto): MenuItem&lt;br&gt;updateMenuItem(id, dto): MenuItem&lt;br&gt;deleteMenuItem(id): void&lt;br&gt;uploadImage(file): String" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S3" vertex="1">
+                    <mxGeometry x="580" y="48" width="185" height="115" as="geometry"/>
+                </mxCell>
+                <mxCell id="M_S3Service" value="&lt;b&gt;S3Service&lt;/b&gt;&lt;hr&gt;uploadImage(file): String&lt;br&gt;deleteImage(key): void" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S3" vertex="1">
+                    <mxGeometry x="780" y="48" width="165" height="85" as="geometry"/>
+                </mxCell>
+                <mxCell id="M_NutritionSvc" value="&lt;b&gt;NutritionScoringService&lt;/b&gt;&lt;hr&gt;scoreItem(item): int&lt;br&gt;scoreCombo(items): int&lt;br&gt;tagsForCombo(items, score): List&lt;br&gt;(0-100 health scoring)" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S3" vertex="1">
+                    <mxGeometry x="960" y="48" width="190" height="105" as="geometry"/>
+                </mxCell>
+                <mxCell id="M_RecommEngineV2" value="&lt;b&gt;RecommendationEngineV2  v2&lt;/b&gt;&lt;hr&gt;recommend(userId, req):&lt;br&gt;  AiRecommendationResponse&lt;br&gt;Scoring: cuisine(35) + history(25)&lt;br&gt;+ spice(10) + mood(10) + appetite(5)&lt;br&gt;Hard filters: budget, dietary" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S3" vertex="1">
+                    <mxGeometry x="1165" y="48" width="200" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="M_RuleBasedSvc" value="&lt;b&gt;RuleBasedRecommendationService&lt;/b&gt;&lt;hr&gt;recommend(req, items):&lt;br&gt;  AiRecommendationResponse&lt;br&gt;(rule-based fallback)" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S3" vertex="1">
+                    <mxGeometry x="1380" y="48" width="200" height="95" as="geometry"/>
+                </mxCell>
+                <mxCell id="M_Controllers" value="&lt;b&gt;MenuItemController&lt;/b&gt;&lt;hr&gt;GET/POST/PUT/DELETE /v1/menu/items&lt;br&gt;&lt;b&gt;MenuCategoryController&lt;/b&gt;&lt;hr&gt;GET/POST/PUT /v1/menu/categories&lt;br&gt;&lt;b&gt;MenuBranchController&lt;/b&gt;&lt;hr&gt;GET /v1/menu/branch/{id}/items" style="text;html=1;strokeColor=#1E8449;fillColor=#EAFAF1;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S3" vertex="1">
+                    <mxGeometry x="1595" y="48" width="210" height="175" as="geometry"/>
+                </mxCell>
+                <mxCell id="M_RecommControllerV2" value="&lt;b&gt;RecommendationControllerV2  v2&lt;/b&gt;&lt;hr&gt;POST /v2/menu/recommendations&lt;br&gt;Returns combo suggestions&lt;br&gt;scored by preference + history" style="text;html=1;strokeColor=#1E8449;fillColor=#D5F5E3;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S3" vertex="1">
+                    <mxGeometry x="1820" y="48" width="185" height="95" as="geometry"/>
+                </mxCell>
+                <!-- Row 2 -->
+                <mxCell id="M_OrderEventConsumer" value="&lt;b&gt;OrderEventConsumer  v2&lt;/b&gt;&lt;hr&gt;@KafkaListener: order.received&lt;br&gt;onOrderReceived(payload): void&lt;br&gt;Builds UserMenuInteraction history&lt;br&gt;for recommendation scoring" style="text;html=1;strokeColor=#D35400;fillColor=#FDEBD0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S3" vertex="1">
+                    <mxGeometry x="20" y="210" width="200" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="M_Repos" value="&lt;b&gt;MenuItemRepository&lt;/b&gt;&lt;hr&gt;findByCategoryId(catId): List&lt;br&gt;findByActiveTrue(): List&lt;br&gt;&lt;b&gt;MenuCategoryRepository&lt;/b&gt;&lt;hr&gt;findByName(name): Optional" style="text;html=1;strokeColor=#CB4335;fillColor=#FDEDEC;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S3" vertex="1">
+                    <mxGeometry x="235" y="210" width="185" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="M_InteractionRepo" value="&lt;b&gt;UserMenuInteractionRepository  v2&lt;/b&gt;&lt;hr&gt;findByUserIdOrderByOrderCountDesc()&lt;br&gt;@Modifying incrementOrderCount(...)&lt;br&gt;(upsert pattern)" style="text;html=1;strokeColor=#CB4335;fillColor=#FDEDEC;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S3" vertex="1">
+                    <mxGeometry x="435" y="210" width="200" height="95" as="geometry"/>
+                </mxCell>
+                <mxCell id="M_MySQL" value="MySQL&#xa;menu_db" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#007DB8;strokeColor=#004f78;fontColor=#ffffff;fontStyle=1;fontSize=10;" parent="S3" vertex="1">
+                    <mxGeometry x="650" y="210" width="110" height="105" as="geometry"/>
+                </mxCell>
+                <mxCell id="M_S3" value="AWS S3&#xa;Images" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF9900;strokeColor=#CC6600;fontColor=#ffffff;fontStyle=1;fontSize=10;arcSize=20;" parent="S3" vertex="1">
+                    <mxGeometry x="775" y="225" width="110" height="70" as="geometry"/>
+                </mxCell>
+
+                <!-- ═══════════════════════════════════════════════════════ -->
+                <!-- BRANCH SERVICE (port 8081) -->
+                <!-- ═══════════════════════════════════════════════════════ -->
+                <mxCell id="S4" value="Branch Service  (port: 8081)" style="swimlane;startSize=30;fillColor=#F8F9FA;strokeColor=#566573;fontColor=#2C3E50;fontStyle=1;fontSize=13;align=left;spacingLeft=10;collapsible=0;rounded=1;arcSize=2;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="1330" width="2300" height="260" as="geometry"/>
+                </mxCell>
+                <mxCell id="BR_Branch" value="&lt;b&gt;@Entity Branch&lt;/b&gt;&lt;hr&gt;id, name, address&lt;br&gt;latitude, longitude&lt;br&gt;managerId, active&lt;br&gt;rating, isOpen" style="text;html=1;strokeColor=#566573;fillColor=#F8F9FA;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S4" vertex="1">
+                    <mxGeometry x="20" y="48" width="160" height="105" as="geometry"/>
+                </mxCell>
+                <mxCell id="BR_Hours" value="&lt;b&gt;@Entity BranchHours&lt;/b&gt;&lt;hr&gt;id, branch: Branch&lt;br&gt;dayOfWeek, openTime&lt;br&gt;closeTime, open" style="text;html=1;strokeColor=#566573;fillColor=#F8F9FA;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S4" vertex="1">
+                    <mxGeometry x="195" y="48" width="160" height="95" as="geometry"/>
+                </mxCell>
+                <mxCell id="BR_Table" value="&lt;b&gt;@Entity BranchTable&lt;/b&gt;&lt;hr&gt;id, branchId&lt;br&gt;tableNumber, capacity&lt;br&gt;status, section" style="text;html=1;strokeColor=#566573;fillColor=#F8F9FA;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S4" vertex="1">
+                    <mxGeometry x="370" y="48" width="155" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="BR_BranchService" value="&lt;b&gt;BranchService + Impl&lt;/b&gt;&lt;hr&gt;getAllBranches(): List&lt;br&gt;createBranch(dto): Branch&lt;br&gt;updateBranch(id, dto): Branch&lt;br&gt;getBranchHours(branchId): List" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S4" vertex="1">
+                    <mxGeometry x="540" y="48" width="185" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="BR_TableService" value="&lt;b&gt;TableService + Impl&lt;/b&gt;&lt;hr&gt;getTablesByBranch(branchId): List&lt;br&gt;createTable(dto): BranchTable&lt;br&gt;updateTableStatus(id, status)" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S4" vertex="1">
+                    <mxGeometry x="740" y="48" width="185" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="BR_Controller" value="&lt;b&gt;BranchController&lt;/b&gt;&lt;hr&gt;GET/POST/PUT/DELETE /v1/branches&lt;br&gt;GET /v1/branch/{id}&lt;br&gt;GET/PUT /v1/branches/{id}/hours" style="text;html=1;strokeColor=#1E8449;fillColor=#EAFAF1;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S4" vertex="1">
+                    <mxGeometry x="940" y="48" width="185" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="BR_TableController" value="&lt;b&gt;TableController&lt;/b&gt;&lt;hr&gt;GET /v1/branches/{id}/tables&lt;br&gt;POST /v1/branches/{id}/tables&lt;br&gt;PATCH /v1/tables/{id}/status" style="text;html=1;strokeColor=#1E8449;fillColor=#EAFAF1;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S4" vertex="1">
+                    <mxGeometry x="1140" y="48" width="185" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="BR_InternalTableCtrl" value="&lt;b&gt;InternalTableController&lt;/b&gt;&lt;hr&gt;Internal service-to-service&lt;br&gt;table management endpoints" style="text;html=1;strokeColor=#1E8449;fillColor=#EAFAF1;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S4" vertex="1">
+                    <mxGeometry x="1340" y="48" width="185" height="85" as="geometry"/>
+                </mxCell>
+                <mxCell id="BR_GwFilter" value="&lt;b&gt;GatewayAuthenticationFilter&lt;/b&gt;&lt;hr&gt;extends OncePerRequestFilter&lt;br&gt;validates X-User-Id header&lt;br&gt;rejects non-gateway traffic" style="text;html=1;strokeColor=#666666;fillColor=#F5F5F5;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S4" vertex="1">
+                    <mxGeometry x="1540" y="48" width="200" height="95" as="geometry"/>
+                </mxCell>
+                <mxCell id="BR_Repos" value="&lt;b&gt;BranchRepository&lt;/b&gt;&lt;hr&gt;findByActive(active): List&lt;br&gt;&lt;b&gt;BranchHoursRepository&lt;/b&gt;&lt;hr&gt;findByBranchId(branchId): List&lt;br&gt;&lt;b&gt;BranchTableRepository&lt;/b&gt;&lt;hr&gt;findByBranchId(branchId): List" style="text;html=1;strokeColor=#CB4335;fillColor=#FDEDEC;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S4" vertex="1">
+                    <mxGeometry x="1755" y="48" width="185" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="BR_MySQL" value="MySQL&#xa;branch_db" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#007DB8;strokeColor=#004f78;fontColor=#ffffff;fontStyle=1;fontSize=10;" parent="S4" vertex="1">
+                    <mxGeometry x="1960" y="48" width="115" height="105" as="geometry"/>
+                </mxCell>
+
+                <!-- ═══════════════════════════════════════════════════════ -->
+                <!-- KITCHEN SERVICE (port 8084) -->
+                <!-- ═══════════════════════════════════════════════════════ -->
+                <mxCell id="S5" value="Kitchen Service  (port: 8084)" style="swimlane;startSize=30;fillColor=#FDEDEC;strokeColor=#CB4335;fontColor=#78281F;fontStyle=1;fontSize=13;align=left;spacingLeft=10;collapsible=0;rounded=1;arcSize=2;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="1610" width="2300" height="255" as="geometry"/>
+                </mxCell>
+                <mxCell id="K_QueueService" value="&lt;b&gt;KitchenQueueService + Impl&lt;/b&gt;&lt;hr&gt;- redisTemplate: RedisTemplate&lt;br&gt;enqueueOrder(event): void&lt;br&gt;getQueue(): List&lt;br&gt;updateOrderStatus(id, status): void&lt;br&gt;removeOrder(orderId): void" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S5" vertex="1">
+                    <mxGeometry x="20" y="48" width="210" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="K_SLA" value="&lt;b&gt;SLAMonitoringService&lt;/b&gt;&lt;hr&gt;@Scheduled(fixedDelay=60000)&lt;br&gt;checkSlaBreaches(): void&lt;br&gt;Alerts on SLA violations" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S5" vertex="1">
+                    <mxGeometry x="245" y="48" width="185" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="K_Controller" value="&lt;b&gt;KitchenController&lt;/b&gt;&lt;hr&gt;GET /v1/kitchen/queue&lt;br&gt;GET /v1/kitchen/orders/{id}&lt;br&gt;PUT /v1/kitchen/orders/{id}/status&lt;br&gt;DELETE /v1/kitchen/orders/{id}" style="text;html=1;strokeColor=#1E8449;fillColor=#EAFAF1;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S5" vertex="1">
+                    <mxGeometry x="445" y="48" width="185" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="K_Consumer" value="&lt;b&gt;KitchenEventConsumer&lt;/b&gt;&lt;hr&gt;@KafkaListener: kitchen.order.created&lt;br&gt;consumeOrderCreated(event): void&lt;br&gt;@KafkaListener: kitchen.order.updated&lt;br&gt;consumeOrderUpdated(event): void" style="text;html=1;strokeColor=#D35400;fillColor=#FDEBD0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S5" vertex="1">
+                    <mxGeometry x="645" y="48" width="210" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="K_Config" value="&lt;b&gt;WebSocketConfig&lt;/b&gt;&lt;hr&gt;registers /ws/kitchen endpoint&lt;br&gt;&lt;b&gt;KafkaConsumerConfig&lt;/b&gt;&lt;hr&gt;Confluent Cloud SASL_SSL&lt;br&gt;consumer group config" style="text;html=1;strokeColor=#666666;fillColor=#F5F5F5;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S5" vertex="1">
+                    <mxGeometry x="870" y="48" width="195" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="K_Redis" value="Redis&#xa;Kitchen Queue" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#DC382D;strokeColor=#A01E1E;fontColor=#ffffff;fontStyle=1;fontSize=10;" parent="S5" vertex="1">
+                    <mxGeometry x="1085" y="48" width="120" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="K_Kafka" value="Apache Kafka&#xa;Broker" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;size=8;fillColor=#231F20;strokeColor=#000000;fontColor=#ffffff;fontStyle=1;fontSize=10;" parent="S5" vertex="1">
+                    <mxGeometry x="1220" y="45" width="120" height="110" as="geometry"/>
+                </mxCell>
+
+                <!-- ═══════════════════════════════════════════════════════ -->
+                <!-- NOTIFICATIONS SERVICE (port 8087) -->
+                <!-- ═══════════════════════════════════════════════════════ -->
+                <mxCell id="S6" value="Notifications Service  (port: 8087)" style="swimlane;startSize=30;fillColor=#FDEDEC;strokeColor=#922B21;fontColor=#78281F;fontStyle=1;fontSize=13;align=left;spacingLeft=10;collapsible=0;rounded=1;arcSize=2;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="1885" width="2300" height="275" as="geometry"/>
+                </mxCell>
+                <mxCell id="N_Log" value="&lt;b&gt;@Entity NotificationLog&lt;/b&gt;&lt;hr&gt;id, recipientEmail&lt;br&gt;subject, body&lt;br&gt;type: NotificationType&lt;br&gt;status, retryCount&lt;br&gt;createdAt: Instant" style="text;html=1;strokeColor=#922B21;fillColor=#FDEDEC;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S6" vertex="1">
+                    <mxGeometry x="20" y="48" width="165" height="125" as="geometry"/>
+                </mxCell>
+                <mxCell id="N_LogService" value="&lt;b&gt;NotificationLogService&lt;/b&gt;&lt;hr&gt;saveLog(request): NotificationLog&lt;br&gt;updateStatus(id, status): void&lt;br&gt;getByRecipient(email): List&lt;br&gt;retryFailed(): void" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S6" vertex="1">
+                    <mxGeometry x="200" y="48" width="185" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="N_SmtpSvc" value="&lt;b&gt;SmtpMailService&lt;/b&gt;&lt;hr&gt;sendEmail(request): void&lt;br&gt;sendHtmlEmail(request): void&lt;br&gt;Primary SMTP provider" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S6" vertex="1">
+                    <mxGeometry x="400" y="48" width="175" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="N_BrevoSvc" value="&lt;b&gt;BrevoMailService&lt;/b&gt;&lt;hr&gt;sendEmail(request): void&lt;br&gt;Brevo REST API fallback&lt;br&gt;provider" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S6" vertex="1">
+                    <mxGeometry x="590" y="48" width="165" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="N_Controller" value="&lt;b&gt;NotificationController&lt;/b&gt;&lt;hr&gt;GET /v1/notifications&lt;br&gt;GET /v1/notifications/{id}&lt;br&gt;GET /v1/notifications/recipient/{email}&lt;br&gt;POST /v1/notifications/retry" style="text;html=1;strokeColor=#1E8449;fillColor=#EAFAF1;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S6" vertex="1">
+                    <mxGeometry x="770" y="48" width="195" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="N_Consumer" value="&lt;b&gt;NotificationEventConsumer&lt;/b&gt;&lt;hr&gt;@KafkaListener: notification.email.send&lt;br&gt;@KafkaListener: notification.order.confirmed&lt;br&gt;@KafkaListener: notification.order.ready&lt;br&gt;@KafkaListener: notification.welcome" style="text;html=1;strokeColor=#D35400;fillColor=#FDEBD0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S6" vertex="1">
+                    <mxGeometry x="980" y="48" width="220" height="115" as="geometry"/>
+                </mxCell>
+                <mxCell id="N_WS" value="&lt;b&gt;RawWebSocketHandler&lt;/b&gt;&lt;hr&gt;afterConnectionEstablished()&lt;br&gt;broadcastToUser(userId, msg)&lt;br&gt;&lt;b&gt;WebSocketHandlerRegistry&lt;/b&gt;&lt;hr&gt;maps /ws-notifications endpoint" style="text;html=1;strokeColor=#1E8449;fillColor=#D5F5E3;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S6" vertex="1">
+                    <mxGeometry x="1215" y="48" width="195" height="115" as="geometry"/>
+                </mxCell>
+                <mxCell id="N_Repo" value="&lt;b&gt;NotificationLogRepository&lt;/b&gt;&lt;hr&gt;findByRecipientEmail(): List&lt;br&gt;findByStatus(status): List&lt;br&gt;findByType(type): List" style="text;html=1;strokeColor=#CB4335;fillColor=#FDEDEC;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S6" vertex="1">
+                    <mxGeometry x="1425" y="48" width="185" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="N_MySQL" value="MySQL&#xa;notifications_db" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#007DB8;strokeColor=#004f78;fontColor=#ffffff;fontStyle=1;fontSize=10;" parent="S6" vertex="1">
+                    <mxGeometry x="1635" y="48" width="120" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="N_Kafka" value="Apache Kafka&#xa;Broker" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;size=8;fillColor=#231F20;strokeColor=#000000;fontColor=#ffffff;fontStyle=1;fontSize=10;" parent="S6" vertex="1">
+                    <mxGeometry x="1775" y="45" width="115" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="N_Email" value="SMTP / Brevo&#xa;Email Delivery" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAD7A0;strokeColor=#CA6F1E;fontColor=#784212;fontStyle=0;fontSize=10;arcSize=20;" parent="S6" vertex="1">
+                    <mxGeometry x="1910" y="62" width="140" height="70" as="geometry"/>
+                </mxCell>
+
+                <!-- ═══════════════════════════════════════════════════════ -->
+                <!-- ANALYTICS SERVICE (port 8085) -->
+                <!-- ═══════════════════════════════════════════════════════ -->
+                <mxCell id="S7" value="Analytics &amp; Report Service  (port: 8085)" style="swimlane;startSize=30;fillColor=#E8DAEF;strokeColor=#6C3483;fontColor=#4A235A;fontStyle=1;fontSize=13;align=left;spacingLeft=10;collapsible=0;rounded=1;arcSize=2;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="2180" width="2300" height="310" as="geometry"/>
+                </mxCell>
+                <mxCell id="A_Entities" value="&lt;b&gt;@Entity Entities&lt;/b&gt;&lt;hr&gt;OrderAnalytics&lt;br&gt;OrderItemAnalytics&lt;br&gt;BranchDailySummary&lt;br&gt;Report" style="text;html=1;strokeColor=#6C3483;fillColor=#E8DAEF;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S7" vertex="1">
+                    <mxGeometry x="20" y="48" width="165" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="A_AnalyticsService" value="&lt;b&gt;AnalyticsService + Impl&lt;/b&gt;&lt;hr&gt;getRevenueByBranch(branchId, from, to)&lt;br&gt;getTopItems(branchId, limit): List&lt;br&gt;getSummary(branchId, date)&lt;br&gt;generateDailySummary(branchId, date)" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S7" vertex="1">
+                    <mxGeometry x="200" y="48" width="215" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="A_ReportService" value="&lt;b&gt;ReportService + Impl&lt;/b&gt;&lt;hr&gt;generateReport(dto): Report&lt;br&gt;getReport(id): Report&lt;br&gt;getReportsByBranch(branchId): List" style="text;html=1;strokeColor=#D4AC0D;fillColor=#FEFDE0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S7" vertex="1">
+                    <mxGeometry x="430" y="48" width="200" height="105" as="geometry"/>
+                </mxCell>
+                <mxCell id="A_Consumer" value="&lt;b&gt;AnalyticsEventConsumer&lt;/b&gt;&lt;hr&gt;@KafkaListener: order.placed.event&lt;br&gt;consumeOrderPlaced(event): void&lt;br&gt;@KafkaListener: order.status.updated.event&lt;br&gt;consumeStatusUpdated(event): void" style="text;html=1;strokeColor=#D35400;fillColor=#FDEBD0;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S7" vertex="1">
+                    <mxGeometry x="645" y="48" width="215" height="115" as="geometry"/>
+                </mxCell>
+                <mxCell id="A_AnalyticsController" value="&lt;b&gt;AnalyticsController&lt;/b&gt;&lt;hr&gt;GET /v1/analytics/revenue&lt;br&gt;GET /v1/analytics/top-items&lt;br&gt;GET /v1/analytics/summary" style="text;html=1;strokeColor=#1E8449;fillColor=#EAFAF1;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S7" vertex="1">
+                    <mxGeometry x="875" y="48" width="185" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="A_AdminController" value="&lt;b&gt;AdminAnalyticsController&lt;/b&gt;&lt;hr&gt;GET /v1/admin/analytics/**&lt;br&gt;HEAD_OFFICE_ADMIN only&lt;br&gt;Cross-branch analytics" style="text;html=1;strokeColor=#1E8449;fillColor=#EAFAF1;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S7" vertex="1">
+                    <mxGeometry x="1075" y="48" width="185" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="A_ManagerController" value="&lt;b&gt;ManagerController&lt;/b&gt;&lt;hr&gt;GET /v1/manager/**&lt;br&gt;BRANCH_MANAGER only&lt;br&gt;Branch-scoped analytics" style="text;html=1;strokeColor=#1E8449;fillColor=#EAFAF1;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S7" vertex="1">
+                    <mxGeometry x="1275" y="48" width="185" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="A_ReportController" value="&lt;b&gt;ReportController&lt;/b&gt;&lt;hr&gt;GET /v1/reports&lt;br&gt;POST /v1/reports/generate&lt;br&gt;GET /v1/reports/{id}" style="text;html=1;strokeColor=#1E8449;fillColor=#EAFAF1;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S7" vertex="1">
+                    <mxGeometry x="1475" y="48" width="175" height="95" as="geometry"/>
+                </mxCell>
+                <mxCell id="A_Repos" value="&lt;b&gt;OrderAnalyticsRepository&lt;/b&gt;&lt;hr&gt;findByBranchId(…): List&lt;br&gt;&lt;b&gt;OrderItemAnalyticsRepository&lt;/b&gt;&lt;hr&gt;findByOrderAnalyticsId(…): List&lt;br&gt;&lt;b&gt;BranchDailySummaryRepository&lt;/b&gt;&lt;hr&gt;findByBranchIdAndDate(…): Optional&lt;br&gt;&lt;b&gt;ReportRepository&lt;/b&gt;&lt;hr&gt;findByBranchId(…): List" style="text;html=1;strokeColor=#CB4335;fillColor=#FDEDEC;align=left;verticalAlign=top;spacingLeft=4;whiteSpace=wrap;rounded=1;fontSize=10;" parent="S7" vertex="1">
+                    <mxGeometry x="1665" y="48" width="215" height="175" as="geometry"/>
+                </mxCell>
+                <mxCell id="A_MySQL" value="MySQL&#xa;analytics_db" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#007DB8;strokeColor=#004f78;fontColor=#ffffff;fontStyle=1;fontSize=10;" parent="S7" vertex="1">
+                    <mxGeometry x="1900" y="48" width="120" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="A_Kafka" value="Apache Kafka&#xa;Broker" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;size=8;fillColor=#231F20;strokeColor=#000000;fontColor=#ffffff;fontStyle=1;fontSize=10;" parent="S7" vertex="1">
+                    <mxGeometry x="2040" y="45" width="115" height="110" as="geometry"/>
+                </mxCell>
+
+                <!-- ═══════════════════════════════════════════════════════ -->
+                <!-- CROSS-SERVICE EDGES -->
+                <!-- ═══════════════════════════════════════════════════════ -->
+                <mxCell id="xe1" value="publishes order events" style="dashed=1;endArrow=open;endFill=0;strokeColor=#D35400;strokeWidth=2;" parent="1" source="O_OutboxRelay" target="K_Consumer" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="xe2" value="publishes order events" style="dashed=1;endArrow=open;endFill=0;strokeColor=#D35400;strokeWidth=2;" parent="1" source="O_OutboxRelay" target="A_Consumer" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="xe3" value="publishes notification events" style="dashed=1;endArrow=open;endFill=0;strokeColor=#D35400;strokeWidth=2;" parent="1" source="O_OutboxRelay" target="N_Consumer" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="xe4" value="publishes email events" style="dashed=1;endArrow=open;endFill=0;strokeColor=#2E86C1;strokeWidth=2;" parent="1" source="U_KafkaProd" target="N_Consumer" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="xe5" value="builds order history" style="dashed=1;endArrow=open;endFill=0;strokeColor=#1E8449;strokeWidth=2;" parent="1" source="O_OutboxRelay" target="M_OrderEventConsumer" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <!-- Legend -->
+                <mxCell id="legend" value="&lt;b&gt;Legend&lt;/b&gt;&lt;br&gt;Service bands color-coded by domain&lt;br&gt;──▷  uses / depends on&lt;br&gt;╌╌▷  publishes / consumes (Kafka)&lt;br&gt;⬡  Apache Kafka Broker&lt;br&gt;🔵  MySQL DB cylinder&lt;br&gt;🔴  Redis cylinder&lt;br&gt;v2  New in version 2&lt;br&gt;Light blue nodes = new v2 additions" style="text;html=1;strokeColor=#AAAAAA;fillColor=#FAFAFA;align=left;verticalAlign=top;spacingLeft=6;rounded=1;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="2350" y="80" width="200" height="175" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
