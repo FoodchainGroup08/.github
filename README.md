@@ -533,6 +533,14 @@ erDiagram
 
 ---
 
+## Eureka Service Registry
+
+All 8 services live and registered on the production deployment.
+
+![Eureka Dashboard — all services UP](profile/image.png)
+
+---
+
 ## Key Improvements to Work On
 
 - [ ] HTTPS termination for all internal services (gateway only for now)
