@@ -29,7 +29,7 @@ All source code is maintained across multiple repositories under the **[Foodchai
 | Cache / Queue | Redis |
 | Messaging | Apache Kafka |
 | Frontend | React + Vite |
-| Mobile | Flutter |
+| Mobile | React Native |
 | Containerisation | Docker + Docker Hub |
 | CI/CD | GitHub Actions |
 | Infrastructure | AWS EC2, RDS, S3 |
@@ -72,7 +72,7 @@ All source code is maintained across multiple repositories under the **[Foodchai
 | [notifications-service](https://github.com/FoodchainGroup08/notifications-service) | WebSocket push notifications and transactional email alerts |
 | [analytics-report-service](https://github.com/FoodchainGroup08/analytics-report-service) | Sales analytics, daily summaries, and report generation |
 | [frontend](https://github.com/FoodchainGroup08/frontend) | React/Vite UI for customers and staff |
-| mobile *(coming soon)* | Flutter mobile app for customers and staff |
+| [foodchain-mobile](https://github.com/FoodchainGroup08/foodchain-mobile) | React Native mobile app for customers and staff |
 
 ---
 
@@ -117,7 +117,7 @@ flowchart TD
 
     subgraph CLIENT["🖥️ Client Layer"]
         FE["Frontend\nReact + Vite + TypeScript\nfoodchain.live"]
-        MOB["Mobile\nFlutter\ncoming soon"]
+        MOB["Mobile\nReact Native\nfoodchain-mobile"]
     end
 
     subgraph GATEWAY["⚙️ API Gateway Layer"]
@@ -353,6 +353,164 @@ classDiagram
     KitchenOrder "1" *-- "1..*" KitchenOrderItem : processes
 
   
+```
+
+---
+
+## Entity Relationship Diagram
+
+```mermaid
+erDiagram
+    users {
+        char id PK
+        varchar email
+        varchar role
+        char branch_id FK
+        boolean is_active
+    }
+    user_preferences {
+        char user_id PK "FK to users"
+        json cuisine_preferences
+        json dietary_restrictions
+        varchar spice_level
+        boolean preferences_completed
+    }
+    branches {
+        char id PK
+        varchar name
+        char manager_id FK
+        boolean is_active
+        numeric rating
+    }
+    branch_hours {
+        char id PK
+        char branch_id FK
+        int day_of_week
+        time open_time
+        time close_time
+    }
+    branch_tables {
+        char id PK
+        char branch_id FK
+        int table_number
+        int capacity
+        varchar status
+    }
+    menu_categories {
+        char id PK
+        varchar name
+        int display_order
+        boolean is_active
+    }
+    menu_items {
+        char id PK
+        varchar name
+        char category_id FK
+        numeric base_price
+        boolean is_active
+    }
+    user_menu_interactions {
+        char id PK
+        char user_id FK
+        char menu_item_id FK
+        char branch_id
+        int order_count
+        timestamp last_ordered_at
+    }
+    orders {
+        char id PK
+        char branch_id FK
+        char customer_id FK
+        varchar order_type
+        varchar status
+        numeric total_amount
+        varchar payment_status
+    }
+    order_items {
+        char id PK
+        char order_id FK
+        char menu_item_id FK
+        int quantity
+        numeric unit_price
+        numeric subtotal
+    }
+    payments {
+        char id PK
+        char order_id FK
+        char user_id FK
+        numeric amount
+        varchar provider
+        varchar reference
+        varchar status
+    }
+    order_status_updates {
+        char id PK
+        char order_id FK
+        varchar old_status
+        varchar new_status
+        char updated_by FK
+    }
+    outbox_events {
+        char id PK
+        varchar topic
+        varchar partition_key
+        text payload
+        boolean published
+    }
+    notification_logs {
+        bigint id PK
+        varchar notification_type
+        varchar order_id FK
+        varchar customer_id FK
+        boolean is_read
+        timestamp sent_at
+    }
+    order_analytics {
+        bigint id PK
+        char order_id FK
+        char branch_id FK
+        char customer_id FK
+        numeric total_amount
+    }
+    order_item_analytics {
+        bigint id PK
+        char order_id FK
+        char menu_item_id FK
+        int quantity
+        numeric line_total
+    }
+    branch_daily_summary {
+        bigint id PK
+        char branch_id FK
+        date summary_date
+        int total_orders
+        numeric total_revenue
+    }
+    reports {
+        bigint id PK
+        varchar report_type
+        char branch_id FK
+        date start_date
+        date end_date
+    }
+
+    users ||--o| user_preferences : "has"
+    users ||--o{ orders : "places"
+    users ||--o{ user_menu_interactions : "interacts"
+    branches ||--|{ branch_hours : "has"
+    branches ||--o{ branch_tables : "has"
+    branches ||--o{ orders : "receives"
+    menu_categories ||--o{ menu_items : "groups"
+    menu_items ||--o{ order_items : "ordered as"
+    menu_items ||--o{ user_menu_interactions : "tracked by"
+    orders ||--|{ order_items : "contains"
+    orders ||--o{ order_status_updates : "tracks"
+    orders ||--o| payments : "paid via"
+    orders ||--o{ notification_logs : "triggers"
+    orders ||--o{ order_analytics : "feeds"
+    branches ||--o{ branch_daily_summary : "summarised by"
+    branches ||--o{ reports : "in"
+    order_items ||--o{ order_item_analytics : "aggregated in"
 ```
 
 ---
