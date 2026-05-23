@@ -211,21 +211,21 @@ classDiagram
     classDef anSvc fill:#E8DAEF,stroke:#6C3483,color:#4A235A
 
     %% ── User Service : 8086 ──
-    class User:::userSvc {
+    class User {
         +Long id
         +String email
         +String name
         +Role role
         +String googleId
     }
-    class UserPreference:::userSvc {
+    class UserPreference {
         +Long id
         +Long userId
         +List cuisinePreferences
         +List allergens
         +boolean preferencesCompleted
     }
-    class Role:::userSvc {
+    class Role {
         <<enumeration>>
         CUSTOMER
         KITCHEN_STAFF
@@ -234,79 +234,81 @@ classDiagram
     }
 
     %% ── Menu Service : 8082 ──
-    class MenuItem:::menuSvc {
+    class MenuItem {
         +Long id
         +String name
         +BigDecimal price
         +Long categoryId
-        +Long branchId
         +boolean isActive
     }
-    class Category:::menuSvc {
+    class Category {
         +Long id
         +String name
     }
-    class UserMenuInteraction:::menuSvc {
+    class UserMenuInteraction {
         +Long id
         +Long userId
         +Long menuItemId
-        +String interactionType
-        +Integer rating
+        +int orderCount
+        +LocalDateTime lastOrderedAt
     }
 
     %% ── Order Service : 8183 ──
-    class Order:::orderSvc {
+    class Order {
         +Long id
         +Long userId
         +Long branchId
         +OrderStatus status
         +BigDecimal totalAmount
+        +PaymentStatus paymentStatus
     }
-    class OrderItem:::orderSvc {
+    class OrderItem {
         +Long id
         +Long orderId
         +Long menuItemId
         +Integer quantity
         +BigDecimal unitPrice
     }
-    class Payment:::orderSvc {
+    class Payment {
         +Long id
         +Long orderId
-        +String paystackReference
+        +String reference
+        +String provider
         +PaymentStatus status
     }
 
     %% ── Branch Service : 8081 ──
-    class Branch:::branchSvc {
+    class Branch {
         +Long id
         +String name
         +String address
         +Double latitude
         +Double longitude
     }
-    class OperatingHours:::branchSvc {
+    class OperatingHours {
         +Long id
         +Long branchId
         +DayOfWeek dayOfWeek
         +LocalTime openTime
         +LocalTime closeTime
     }
-    class BranchTable:::branchSvc {
+    class BranchTable {
         +Long id
         +Long branchId
-        +String tableNumber
+        +Integer tableNumber
         +Integer capacity
+        +TableStatus status
     }
 
     %% ── Kitchen Service : 8084 ──
-    class KitchenOrder:::kitSvc {
+    class KitchenOrder {
         +Long id
         +Long orderId
         +Long branchId
         +KitchenStatus status
         +LocalDateTime assignedAt
     }
-    class KitchenOrderItem:::kitSvc {
+    class KitchenOrderItem {
         +Long id
         +Long kitchenOrderId
         +String menuItemName
@@ -314,7 +316,7 @@ classDiagram
     }
 
     %% ── Notifications Service : 8087 ──
-    class Notification:::notifSvc {
+    class Notification {
         +Long id
         +Long userId
         +String type
@@ -323,14 +325,14 @@ classDiagram
     }
 
     %% ── Analytics Service : 8085 ──
-    class SalesReport:::anSvc {
+    class SalesReport {
         +Long id
         +Long branchId
         +LocalDate reportDate
         +BigDecimal totalRevenue
         +Integer totalOrders
     }
-    class OrderItemAnalytics:::anSvc {
+    class OrderItemAnalytics {
         +Long id
         +Long menuItemId
         +String menuItemName
@@ -352,7 +354,23 @@ classDiagram
     Branch "1" --> "0..*" BranchTable : has
     KitchenOrder "1" *-- "1..*" KitchenOrderItem : processes
 
-  
+    class User userSvc
+    class UserPreference userSvc
+    class Role userSvc
+    class MenuItem menuSvc
+    class Category menuSvc
+    class UserMenuInteraction menuSvc
+    class Order orderSvc
+    class OrderItem orderSvc
+    class Payment orderSvc
+    class Branch branchSvc
+    class OperatingHours branchSvc
+    class BranchTable branchSvc
+    class KitchenOrder kitSvc
+    class KitchenOrderItem kitSvc
+    class Notification notifSvc
+    class SalesReport anSvc
+    class OrderItemAnalytics anSvc
 ```
 
 ---
