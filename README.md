@@ -553,7 +553,7 @@ All 8 services live and registered on the production deployment.
 
 Here is how our mobile app looks and feels — built with React Native.
 
-[▶ Watch the mobile app preview](https://github.com/FoodchainGroup08/foodchain-overview/blob/main/profile/mobile%20view.mp4)
+[▶ Watch the mobile app preview](https://drive.google.com/file/d/1CC-xYLo5B0d2vKybFuDaW-DS1hBM7AWN/view?usp=drivesdk)
 
 ---
 
