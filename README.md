@@ -95,6 +95,12 @@ All source code is maintained across multiple repositories under the **[Foodchai
 
 ---
 
+## Use Case Diagram
+
+![FoodChain Use Case Diagram](diagram/use_case_diagram.svg)
+
+---
+
 ## Architecture Diagram
 
 ```mermaid
