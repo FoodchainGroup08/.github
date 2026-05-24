@@ -537,9 +537,7 @@ All 8 services live and registered on the production deployment.
 
 Here is how our mobile app looks and feels — built with React Native.
 
-<video src="mobile%20view.mp4" controls width="360">
-  <a href="mobile%20view.mp4">Watch the mobile app preview</a>
-</video>
+[▶ Watch the mobile app preview](https://github.com/FoodchainGroup08/foodchain-overview/blob/main/profile/mobile%20view.mp4)
 
 ---
 
