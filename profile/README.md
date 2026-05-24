@@ -2,6 +2,8 @@
 
 A cloud-native restaurant management platform built across **10 microservices** — handling ordering, kitchen operations, menu management, branch coordination, analytics, and real-time notifications. Available on web and mobile (React Native).
 
+> ✨ **Key feature:** a preference-based **recommendation engine** that learns from your order history and dietary preferences to suggest the perfect meal combo — personalised just for you.
+
 All source code is maintained across multiple repositories under the **[FoodchainGroup08](https://github.com/FoodchainGroup08)** GitHub organisation.
 
 ---
@@ -528,6 +530,16 @@ erDiagram
 All 8 services live and registered on the production deployment.
 
 ![Eureka Dashboard — all services UP](image.png)
+
+---
+
+## Mobile App Preview
+
+Here is how our mobile app looks and feels — built with React Native.
+
+<video src="mobile%20view.mp4" controls width="360">
+  <a href="mobile%20view.mp4">Watch the mobile app preview</a>
+</video>
 
 ---
 
